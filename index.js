@@ -128,6 +128,7 @@ function addResetListener() {
 function resetClickHandler() {
     grid = createGrid(size, size);
     counter = 0;
+    wasWin = false;
 
     renderGrid(size);
 }
