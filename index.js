@@ -4,7 +4,7 @@ const EMPTY = ' ';
 
 const container = document.getElementById('fieldWrapper');
 
-
+let counter = 0;
 let grid = [
     [EMPTY, EMPTY, EMPTY],
     [EMPTY, EMPTY, EMPTY],
@@ -34,13 +34,14 @@ function renderGrid(dimension) {
 }
 
 function cellClickHandler(row, col) {
-    // Пиши код тут
     console.log(`Clicked on cell: ${row}, ${col}`);
 
-
-    /* Пользоваться методом для размещения символа в клетке так:
+    if (counter % 2) {
         renderSymbolInCell(ZERO, row, col);
-     */
+    } else {
+        renderSymbolInCell(CROSS, row, col);
+    }
+    counter++;
 }
 
 function renderSymbolInCell(symbol, row, col, color = '#333') {
