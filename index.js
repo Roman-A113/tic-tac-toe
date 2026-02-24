@@ -53,9 +53,9 @@ function cellClickHandler(row, col) {
 }
 
 function haveWinner(symbol, row, col) {
-    return checkLine(symbol, 0, 1, row, col)
+    return checkLine(symbol, 1, 1, row, col)
         || checkLine(symbol, 1, 0, row, col)
-        || checkLine(symbol, 1, 1, row, col)
+        || checkLine(symbol, 0, 1, row, col)
         || checkLine(symbol, 1, -1, row, col);
 }
 
@@ -63,6 +63,7 @@ function checkLine(symbol, dx, dy, startx, starty) {
     let count = 0;
 
     let x = startx, y = starty;
+    let endX = startx, endY = starty, firstX = startx, firstY = starty;
     while (x < size && y < size && x >= 0 && y >= 0) {
         if (grid[x][y] == symbol) {
             count++;
@@ -72,6 +73,8 @@ function checkLine(symbol, dx, dy, startx, starty) {
             break;
         }
     }
+    endX = x - dx;
+    endY = y - dy;
 
     x = startx - dx, y = starty - dy;
     while (x < size && y < size && x >= 0 && y >= 0) {
@@ -83,6 +86,12 @@ function checkLine(symbol, dx, dy, startx, starty) {
             break;
         }
     }
+    firstX = x + dx;
+    firstY = y + dy;
+
+    if (count >= 3) {
+        colorWinner(firstX, firstY, endX, endY, dx, dy);
+    }
 
     return count >= 3;
 }
@@ -92,6 +101,15 @@ function renderSymbolInCell(symbol, row, col, color = '#333') {
 
     targetCell.textContent = symbol;
     targetCell.style.color = color;
+}
+
+function colorWinner(startX, startY, endX, endY, dx, dy) {
+    while (startX != endX || startY != endY) {
+        renderSymbolInCell(grid[startX][startY], startX, startY, '#ff0000');
+        startX += dx;
+        startY += dy;
+    }
+    renderSymbolInCell(grid[startX][startY], startX, startY, '#ff0000');
 }
 
 function findCell(row, col) {
