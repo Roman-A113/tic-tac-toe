@@ -4,6 +4,7 @@ const EMPTY = ' ';
 
 const container = document.getElementById('fieldWrapper');
 
+let size = 3;
 let counter = 0;
 let grid = [
     [EMPTY, EMPTY, EMPTY],
@@ -15,7 +16,7 @@ startGame();
 addResetListener();
 
 function startGame() {
-    renderGrid(3);
+    renderGrid(size);
 }
 
 function renderGrid(dimension) {
@@ -42,9 +43,48 @@ function cellClickHandler(row, col) {
     grid[row][col] = symbol;
     counter++;
 
-    if (counter === 9){
+    if (haveWinner(symbol, row, col)) {
+        alert("Победил" + " " + symbol);
+    }
+
+    if (counter === 9) {
         alert("Победила дружба")
     }
+}
+
+function haveWinner(symbol, row, col) {
+    return checkLine(symbol, 0, 1, row, col)
+        || checkLine(symbol, 1, 0, row, col)
+        || checkLine(symbol, 1, 1, row, col)
+        || checkLine(symbol, 1, -1, row, col);
+}
+
+function checkLine(symbol, dx, dy, startx, starty) {
+    let count = 0;
+
+    let x = startx, y = starty;
+    while (x < size && y < size && x >= 0 && y >= 0) {
+        if (grid[x][y] == symbol) {
+            count++;
+            x += dx;
+            y += dy;
+        } else {
+            break;
+        }
+    }
+
+    x = startx - dx, y = starty - dy;
+    while (x < size && y < size && x >= 0 && y >= 0) {
+        if (grid[x][y] == symbol) {
+            count++;
+            x -= dx;
+            y -= dy;
+        } else {
+            break;
+        }
+    }
+
+    return count >= 3;
 }
 
 function renderSymbolInCell(symbol, row, col, color = '#333') {
