@@ -64,7 +64,7 @@ function checkLine(symbol, dx, dy, startx, starty) {
 
     let x = startx, y = starty;
     while (x < size && y < size && x >= 0 && y >= 0) {
-        if (grid[x][y] == symbol) {
+        if (grid[x][y] === symbol) {
             count++;
             x += dx;
             y += dy;
@@ -73,9 +73,9 @@ function checkLine(symbol, dx, dy, startx, starty) {
         }
     }
 
-    x = startx - dx, y = starty - dy;
+    x = startx - dx; y = starty - dy;
     while (x < size && y < size && x >= 0 && y >= 0) {
-        if (grid[x][y] == symbol) {
+        if (grid[x][y] === symbol) {
             count++;
             x -= dx;
             y -= dy;
@@ -105,9 +105,17 @@ function addResetListener() {
 }
 
 function resetClickHandler() {
-    console.log('reset!');
+    grid = createGrid(size, size);
+    counter = 0;
+
+    renderGrid(size);
 }
 
+function createGrid(rows, cols, fillValue = EMPTY) {
+    return Array.from({ length: rows }, () =>
+        Array(cols).fill(fillValue)
+    );
+}
 
 /* Test Function */
 /* Победа первого игрока */
