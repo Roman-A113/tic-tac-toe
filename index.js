@@ -41,6 +41,10 @@ function cellClickHandler(row, col) {
     renderSymbolInCell(symbol, row, col);
     grid[row][col] = symbol;
     counter++;
+
+    if (counter === 9){
+        alert("Победила дружба")
+    }
 }
 
 function renderSymbolInCell(symbol, row, col, color = '#333') {
