@@ -12,6 +12,8 @@ let grid = [
     [EMPTY, EMPTY, EMPTY]
 ];
 
+let wasWin = false;
+
 startGame();
 addResetListener();
 
@@ -35,7 +37,7 @@ function renderGrid(dimension) {
 }
 
 function cellClickHandler(row, col) {
-    if (grid[row][col] !== EMPTY)
+    if (grid[row][col] !== EMPTY || wasWin)
         return
 
     symbol = counter % 2 ? ZERO : CROSS;
@@ -45,6 +47,7 @@ function cellClickHandler(row, col) {
 
     if (haveWinner(symbol, row, col)) {
         alert("Победил" + " " + symbol);
+        wasWin = true;
     }
 
     if (counter === 9) {
@@ -63,7 +66,7 @@ function checkLine(symbol, dx, dy, startx, starty) {
     let count = 0;
 
     let x = startx, y = starty;
-    let endX = startx, endY = starty, firstX = startx, firstY = starty;
+    let endX, endY, firstX, firstY;
     while (x < size && y < size && x >= 0 && y >= 0) {
         if (grid[x][y] === symbol) {
             count++;
@@ -104,7 +107,7 @@ function renderSymbolInCell(symbol, row, col, color = '#333') {
 }
 
 function colorWinner(startX, startY, endX, endY, dx, dy) {
-    while (startX != endX || startY != endY) {
+    while (startX !== endX || startY !== endY) {
         renderSymbolInCell(grid[startX][startY], startX, startY, '#ff0000');
         startX += dx;
         startY += dy;
