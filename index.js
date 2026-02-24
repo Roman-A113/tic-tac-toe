@@ -34,13 +34,12 @@ function renderGrid(dimension) {
 }
 
 function cellClickHandler(row, col) {
-    console.log(`Clicked on cell: ${row}, ${col}`);
+    if (grid[row][col] !== EMPTY)
+        return
 
-    if (counter % 2) {
-        renderSymbolInCell(ZERO, row, col);
-    } else {
-        renderSymbolInCell(CROSS, row, col);
-    }
+    symbol = counter % 2 ? ZERO : CROSS;
+    renderSymbolInCell(symbol, row, col);
+    grid[row][col] = symbol;
     counter++;
 }
 
